@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.js": "/EHR-Dapp/static/js/main.4cc8799f.js",
+    "static/media/levi.png": "/EHR-Dapp/static/media/levi.af6e9a9941764f27b36f.png",
+    "static/media/Pation.png": "/EHR-Dapp/static/media/Pation.e1e7661bb9333f5900bc.png",
+    "static/media/Doctor.png": "/EHR-Dapp/static/media/Doctor.a188f064eb31a4e79494.png",
+    "static/media/img_2.png": "/EHR-Dapp/static/media/img_2.958c0a170e9b3a74e2d1.png",
+    "static/media/img_1.png": "/EHR-Dapp/static/media/img_1.5c8f6631f361e064af8f.png",
+    "index.html": "/EHR-Dapp/index.html",
+    "main.4cc8799f.js.map": "/EHR-Dapp/static/js/main.4cc8799f.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.4cc8799f.js"
+  ]
+}
