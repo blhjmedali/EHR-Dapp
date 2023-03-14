@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.js": "/EHR-Dapp/static/js/main.8e5c73f2.js",
+    "main.js": "/EHR-Dapp/static/js/main.b6896d3a.js",
     "static/media/img.png": "/EHR-Dapp/static/media/img.e80af5f28975586a5726.png",
     "static/media/img_9.jpg": "/EHR-Dapp/static/media/img_9.a91ee96e97bd992515db.jpg",
     "static/media/img_1.png": "/EHR-Dapp/static/media/img_1.5c8f6631f361e064af8f.png",
@@ -9,9 +9,9 @@
     "static/media/Doctor.png": "/EHR-Dapp/static/media/Doctor.a188f064eb31a4e79494.png",
     "static/media/img_2.png": "/EHR-Dapp/static/media/img_2.958c0a170e9b3a74e2d1.png",
     "index.html": "/EHR-Dapp/index.html",
-    "main.8e5c73f2.js.map": "/EHR-Dapp/static/js/main.8e5c73f2.js.map"
+    "main.b6896d3a.js.map": "/EHR-Dapp/static/js/main.b6896d3a.js.map"
   },
   "entrypoints": [
-    "static/js/main.8e5c73f2.js"
+    "static/js/main.b6896d3a.js"
   ]
 }
