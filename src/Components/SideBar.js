@@ -1,6 +1,4 @@
 import React from "react";
-import img from '../images/Pation.png'
-import {Link} from "react-router-dom";
 
 const SideBar = (prop)=>{
 

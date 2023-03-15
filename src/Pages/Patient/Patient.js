@@ -5,6 +5,7 @@ import Body from "../../Components/Body";
 import  img from '../../images/Pation.png'
 import MyInformation from "./MyInformation";
 import MyHealthRecord from "./MyHealthRecord";
+import MyDoctors from "./MyDoctors";
 
 const Patient=()=>{
 
@@ -54,10 +55,11 @@ const Patient=()=>{
 
             <Body>
                 <SideBar onClickInItem={getSelectedItem} title='Patient' aray={ patient_nav_items} pic={img}/>
-                <ContentContainer>
+                <ContentContainer type = 'patient' >
                     {/*                  orientation based on selected item                   */}
                     {selected==="pation_nav_item1" && <MyInformation obj={patient_info}/>}
                     {selected==="pation_nav_item2" && <MyHealthRecord obj2={medical_records}/> }
+                    {selected==="pation_nav_item3" && <MyDoctors /> }
                 </ContentContainer>
             </Body>
     )

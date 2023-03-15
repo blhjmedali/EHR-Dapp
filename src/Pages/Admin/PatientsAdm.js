@@ -15,8 +15,8 @@ function PatientsAdm(){
 
     return(
         <>
-            <h4 className='text-primary '>Patient : </h4>
-            <div className='d-flex justify-content-around bg-white'>
+            <h4 className='text-dark '><b>Patient : </b></h4><br/>
+            <div className='d-flex justify-content-around '>
                 <button onClick={()=>{stateHandler('view')}} className='btn btn-primary col-3 shadow-sm'>View Patient</button>
                 <button onClick={()=>{stateHandler('add')}} className='btn btn-secondary col-3 shadow-sm' >Add new Patient</button>
             </div>

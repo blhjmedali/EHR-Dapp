@@ -15,16 +15,17 @@ function Form (prop){
         if(isDoctor()){
             const docObject = Object.assign({}, values, docValues);
             console.log(docObject)
-        }else {console.log(values)}
+        }
+        else {console.log(values)}
 
 
     }
     function isDoctor(){
         return prop.userType!='patient'
     }
-    const style = isDoctor()?{backgroundColor:' rgba(0, 255, 0, 0.2)'}:{backgroundColor:' rgba(0, 0, 255, 0.2)'}
+    const style = isDoctor()?{backgroundColor:' rgba(200, 255, 200, 0.1)'}:{backgroundColor:' rgba(0, 0, 255, 0.1   )'}
     return(
-        <div style={style} className='rounded p-3 '>
+        <div  className='rounded p-3 '>
             <h2>Form {isDoctor() ? "doctor": "patient" }</h2>
             <form onSubmit={submitHandler}>
 

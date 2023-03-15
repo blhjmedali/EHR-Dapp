@@ -4,7 +4,7 @@ import DisplayRowKV from "../../Components/DisplayRowKV";
 const MyInformation = (prop)=>{
     const {fname,lname,bdate,email,num, wilaya, gen,wallet_key,join_date,isDoctor,hosptName,speciality }= undefined || prop.obj
     return(
-        <div className=' bg-light p-4  rounded shadow w-75'>
+        <>
             <h4 className='text-primary '>My Informations : </h4>
 
             <div className='p-4'>
@@ -22,7 +22,7 @@ const MyInformation = (prop)=>{
                     <i>{wallet_key}</i>
                 </p>
             </div>
-        </div>
+        </>
     )
 }
 MyInformation.defaultProps={

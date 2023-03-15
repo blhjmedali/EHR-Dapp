@@ -5,6 +5,7 @@ import img from '../../images/Doctor.png'
 import ContentContainer from "../../Components/ContentContainer";
 import MyInformation from "../Patient/MyInformation";
 import MyPatients from "./MyPatients";
+import MyDoctors from "../Patient/MyDoctors";
 
 
 const Doctor=()=>{
@@ -40,10 +41,9 @@ const Doctor=()=>{
     return(
         <Body>
             <SideBar title="Doctor" onClickInItem={getSelectedItem} aray={doctor_nav_items} pic={img} />
-            <ContentContainer>
+            <ContentContainer type = 'doctor'>
                 {selected==='doctor_nav_itm_1'&&<MyInformation obj={doctor_info}/>}
                 {selected==='doctor_nav_itm_2'&&<MyPatients/>}
-
             </ContentContainer>
 
         </Body>

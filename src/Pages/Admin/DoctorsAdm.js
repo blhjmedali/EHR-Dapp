@@ -1,6 +1,5 @@
 import React, {useState} from "react";
-import img from "../../images/img_2.png";
-import DisplayRowKV from "../../Components/DisplayRowKV";
+
 import DoctorDisplayComponent from "./DoctorDisplayComponent";
 import Form from "../../Components/Form";
 
@@ -18,15 +17,15 @@ function DoctorsAdm(){
 
     return(
         <>
-            <h4 className='text-success '>Doctors : </h4>
+            <h4 className='text-dark '><b>Doctors : </b></h4><br/>
             <div className='d-flex justify-content-around'>
-                <button onClick={()=>{stateHandler('view')}} className='btn btn-success col-3 shadow-sm'>View Doctors</button>
+                <button onClick={()=>{stateHandler('view')}} className='btn btn-primary col-3 shadow-sm'>View Doctors</button>
                 <button onClick={()=>{stateHandler('add')}} className='btn btn-secondary col-3 shadow-sm' >Add new Doctor</button>
             </div>
             <hr className="hr  "/>
 
-            {state=='view' && a_doc}
-            {state=='add' && <Form userType='doctor'/>}
+            {state==='view' && a_doc}
+            {state==='add' && <Form userType='doctor'/>}
 
 
 

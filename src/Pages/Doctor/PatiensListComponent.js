@@ -7,7 +7,6 @@ const PatiensListComponent = (prop)=>{
     })
     return(
         <div className=' p-2'>
-            <h4>Patiens List :</h4>
             {line}
         </div>)
 }
