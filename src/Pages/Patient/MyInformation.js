@@ -2,7 +2,7 @@ import React from "react";
 import DisplayRowKV from "../../Components/DisplayRowKV";
 
 const MyInformation = (prop)=>{
-    const {fname,lname,bdate,email,num, wilaya, gen,wallet_key,join_date,isDoctor,hosptName,speciality }= undefined || prop.obj
+    const {fname,lname,bdate,email,num, wilaya ,wallet_key,join_date,hosptName,speciality,isDoctor ,gen}= undefined || prop.obj
     return(
         <>
             <h4 className='text-primary '>My Informations : </h4>
@@ -14,7 +14,7 @@ const MyInformation = (prop)=>{
                 {isDoctor===true && <DisplayRowKV lbl='Speciality' valeur={speciality}/>}
                 {isDoctor===true && <DisplayRowKV lbl='Hospital / Clinic' valeur={hosptName}/>}
                 {isDoctor===false&& <DisplayRowKV lbl='Gender' valeur={gen ? "Male":"Female"}/>}
-                <DisplayRowKV lbl='Email' valeur={email.toString()}/>
+                <DisplayRowKV lbl='Email' valeur={email}/>
                 <DisplayRowKV lbl='Adress' valeur={wilaya}/>
                 <DisplayRowKV lbl='Phone Number' valeur={num}/>
                 <DisplayRowKV lbl='Joining date' valeur={join_date}/>

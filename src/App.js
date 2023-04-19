@@ -1,49 +1,33 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
+
 import {Admin,Doctor,Pation} from "./Pages/indexPages";
 import {BrowserRouter,Routes , Route} from "react-router-dom";
-import Web3 from "web3";
 import LandingPage from "./Components/LandingPage";
-
-async function connectToMetaMask() {
-    if (typeof window.ethereum !== 'undefined') {
-        // Use MetaMask provider
-        const provider = window.ethereum;
-        try {
-            // Request account access
-            await provider.request({ method: 'eth_requestAccounts' });
-            // Create a new Web3 instance
-            const web3 = new Web3(provider);
-            // Get the user's Ethereum address
-            const accounts = await web3.eth.getAccounts();
-            const address = accounts[0];
-            console.log(`Connected to MetaMask with address: ${address}`);
-            return web3;
-        } catch (error) {
-            console.error('Failed to connect to MetaMask', error);
-        }
-    } else {
-        console.error('MetaMask is not installed');
-    }
-}
+import controler from "./controler";
 
 
 
-
-
-
-
-function handlerRequestMetaMask(){
-    let {ethereum}=window
-    ethereum.request({method:'eth_requestAccounts'})
-}
 
 function App () {
 
 
+    let sender = window.ethereum.selectedAddress
+    const a = new controler(sender)
+    //console.log(sender)
+
+    const getUserType = async () =>{
+        console.log(await a.getUserType(window.ethereum.selectedAddress))
+    }
+    useEffect(()=>{getUserType()})
+
+    window.ethereum.on('accountsChanged',getUserType)
+
+
     //basename='/EHR-Dapp'
     return (
+
         <div className="App">
             <BrowserRouter >
                 <Header />
@@ -61,5 +45,6 @@ function App () {
     //                <Footer/>
 
 }
+
 
 export default App;
