@@ -5,6 +5,8 @@ import ContentContainer from "../../Components/ContentContainer";
 import levi from '../../images/img.png'
 import PatientsAdm from "./PatientsAdm";
 import DoctorsAdm from "./DoctorsAdm";
+import controler from "../../controler";
+import {useNavigate} from "react-router-dom";
 
 const Admin=()=>{
 
@@ -22,6 +24,31 @@ const Admin=()=>{
             }
         })
     }
+
+
+    /////////////////////////////////////////////////// change Profile
+    let sender = window.ethereum.selectedAddress
+    const a = new controler(sender)
+    const navigate = useNavigate()
+    const getUserType = async () =>{
+        const user_type =  await a.getUserType(window.ethereum.selectedAddress)
+        if (user_type==="Admin"){
+            console.log("Admin")
+            navigate("/Admin")
+        }
+
+        if (user_type==="Doctor"){
+            console.log("Doctor")
+            navigate("/Doctor")
+        }
+
+        if (user_type==="Patient"){
+            console.log("Patient")
+            navigate("/Patient")
+        }
+    }
+    window.ethereum.on('accountsChanged',getUserType)
+    ///////////////////////////////////////////////////
 
 
     return(

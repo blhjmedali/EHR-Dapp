@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import PatiensListComponent from "../Doctor/PatiensListComponent";
 import Form from "../../Components/Form";
 
@@ -12,6 +12,10 @@ function PatientsAdm(){
     ]
     const[state , stateHandler]=useState('view')
 
+    const [click,setClick]=useState(false)
+
+    useEffect(()=>{},[click , state])
+
 
     return(
         <>
@@ -20,9 +24,10 @@ function PatientsAdm(){
                 <button onClick={()=>{stateHandler('view')}} className='btn btn-primary col-3 shadow-sm'>View Patient</button>
                 <button onClick={()=>{stateHandler('add')}} className='btn btn-secondary col-3 shadow-sm' >Add new Patient</button>
             </div>
+
             <hr className="hr  "/>
 
-            {state==='view'?<PatiensListComponent patients_array={patients_array}/>:<Form userType='patient'/> }
+            {state==='view'?<PatiensListComponent patients_array={patients_array}/>:<Form on={setClick} userType='patient'/> }
 
         </>
     )

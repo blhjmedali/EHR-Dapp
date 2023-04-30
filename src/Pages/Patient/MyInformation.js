@@ -1,25 +1,34 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import DisplayRowKV from "../../Components/DisplayRowKV";
 
-const MyInformation = (prop)=>{
-    const {fname,lname,bdate,email,num, wilaya ,wallet_key,join_date,hosptName,speciality,isDoctor ,gen}= undefined || prop.obj
+
+function MyInformation(prop){
+    //const {first_name,last_name,birth_date,email,phone, wilaya ,wallet_key,join_date,hospital_name,specialite ,gender}= undefined || prop.obj
+
+    const [info , infoHandler] = useState({})
+    useEffect(()=>{
+        infoHandler(undefined || prop.obj)
+    })
+
+    //console.log("MyInformation Component : ",info)
+
     return(
         <>
             <h4 className='text-primary '>My Informations : </h4>
 
             <div className='p-4'>
-                <DisplayRowKV lbl='First Name' valeur={fname} />
-                <DisplayRowKV lbl='Last Name' valeur={lname}/>
-                {isDoctor===false&& <DisplayRowKV lbl='Date of birth' valeur={bdate}/>}
-                {isDoctor===true && <DisplayRowKV lbl='Speciality' valeur={speciality}/>}
-                {isDoctor===true && <DisplayRowKV lbl='Hospital / Clinic' valeur={hosptName}/>}
-                {isDoctor===false&& <DisplayRowKV lbl='Gender' valeur={gen ? "Male":"Female"}/>}
-                <DisplayRowKV lbl='Email' valeur={email}/>
-                <DisplayRowKV lbl='Adress' valeur={wilaya}/>
-                <DisplayRowKV lbl='Phone Number' valeur={num}/>
-                <DisplayRowKV lbl='Joining date' valeur={join_date}/>
-                <p className='text-secondary d-flex justify-content-center pt-4'>
-                    <i>{wallet_key}</i>
+                <DisplayRowKV lbl='First Name' valeur={info.first_name} />
+                <DisplayRowKV lbl='Last Name' valeur={info.last_name}/>
+                {prop.isDoctor===false&& <DisplayRowKV lbl='Date of birth' valeur={info.birth_date}/>}
+                {prop.isDoctor===true && <DisplayRowKV lbl='Speciality' valeur={info.specialite}/>}
+                {prop.isDoctor===true && <DisplayRowKV lbl='Hospital / Clinic' valeur={info.hospital_name}/>}
+                {prop.isDoctor===false&& <DisplayRowKV lbl='Gender' valeur={info.gender /*? "Male":"Female"*/}/>}
+                <DisplayRowKV lbl='Email' valeur={info.email}/>
+                <DisplayRowKV lbl='Adress' valeur={info.wilaya}/>
+                <DisplayRowKV lbl='Phone Number' valeur={info.phone}/>
+                <DisplayRowKV lbl='Joining date' valeur={info.join_date}/>
+                <p className='text-dark d-flex justify-content-center pt-4'>
+                    <i>{info.wallet_key}</i>
                 </p>
             </div>
         </>

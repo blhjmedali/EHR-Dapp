@@ -8,16 +8,13 @@ contract  Contract {
     constructor(){
         admin=msg.sender;
         isAdmin[admin]=true;
-        //////////////////
-        createDoctor(0xff640B68F773729E8A352cCa92888dc3535dB90d,"first_name of Doctor","last_name of Doctor","email of Doctor","specialite of Doctor","hospital_name of Doctor","wilaya of Doctor","birth_date of Doctor","phone of Doctor","gender of Doctor");
-        createDoctor(0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db ,"doc2","doc2","doc2","doc2","doc2","doc2","doc2","doc2","doc2");
+        ////////////////////////////////
+        //createDoctor(0xff640B68F773729E8A352cCa92888dc3535dB90d,"first_name of Doctor","last_name of Doctor","email of Doctor","specialite of Doctor","hospital_name of Doctor","wilaya of Doctor","birth_date of Doctor","phone of Doctor","gender of Doctor","_join_date");
+        //createDoctor(0xb5b6d0E2C523ec14618D44F9AFB73195414F8786 ,"doc2","doc2","doc2","doc2","doc2","doc2","doc2","doc2","doc2","_join_date");
 
-        createPatient(0x695553ff7eAAdb81BCeb8DEEE24118dC36c486AF,"pat1","pat12","pat13","pat14","pat15","pat16","pat17")  ;
-        createPatient(0x583031D1113aD414F02576BD6afaBfb302140225,"pat2","pat2","pat2","pat2","pat2","pat2","pat2")  ;
+        //createPatient(0x695553ff7eAAdb81BCeb8DEEE24118dC36c486AF,"first_name pat1","last_name pat12","email pat13"," pat14","pat15","pat16","pat17","_join_date")  ;
+        //createPatient(0x9fE7AF5782D9bf27ECC304EE6ED34c0FF97b9eE0,"pat2","pat2","pat2","pat2","pat2","pat2","pat2","_join_date")  ;
     }
-
-
-
     struct Doctor{
         string first_name ;
         string last_name ;
@@ -28,6 +25,7 @@ contract  Contract {
         string birth_date ;
         string phone ;
         string gender ;
+        string join_date ;
     }
     struct Patient{
         string first_name ;
@@ -37,6 +35,7 @@ contract  Contract {
         string birth_date ;
         string phone ;
         string gender ;
+        string join_date ;
     }
     struct MedicalRecord{
         string blood_type ;
@@ -51,15 +50,16 @@ contract  Contract {
     mapping (address => bool) public isPatient;
     mapping (address => bool) public isAdmin;
 
-    address[]  all_doctors_adresses ;
-    address[]  all_patiens_adresses ;
+    address[]  all_doctors_adresses ;    //****
+    address[]  all_patiens_adresses ;    //****
 
     mapping (address => Doctor) public doctors;
     mapping (address => Patient) public patients;
     mapping (address => MedicalRecord) public  medicalRecords;
 
-    mapping (address => mapping(address => bool ) ) appreovedDoctors ;
+    mapping (address => mapping(address => bool ) ) appreovedDoctors ;  // P_adr =>( D_adr => bool )
     mapping (address => address[] ) myPations ;
+    mapping (address => address[] ) myDoctors ;   //*********
 
     mapping (address => address[] ) doctorsHistory ;
 
@@ -88,12 +88,14 @@ contract  Contract {
         string memory _wilaya,
         string memory _birth_date,
         string memory _phone,
-        string memory _gender
+        string memory _gender,
+        string memory _join_date
     )public onlyAdmin {
         Doctor memory newDoctor = Doctor({
             first_name: _first_name,    last_name    : _last_name    ,  email : _email,
             specialite: _specialite,    hospital_name: _hospital_name,  wilaya: _wilaya,
-            birth_date: _birth_date,    phone        : _phone        ,  gender: _gender
+            birth_date: _birth_date,    phone        : _phone        ,  gender: _gender,
+            join_date : _join_date
         });
         doctors[_doctorAddress] = newDoctor;
         isDoctor[_doctorAddress]=true;
@@ -109,18 +111,20 @@ contract  Contract {
         string memory _wilaya,
         string memory _birth_date,
         string memory _phone,
-        string memory _gender
+        string memory _gender,
+        string memory _join_date
+
     )public onlyAdmin {
         Patient memory newPatient = Patient({
             first_name: _first_name  , last_name : _last_name    ,    email : _email  ,
             wilaya    : _wilaya      , birth_date: _birth_date   ,    phone : _phone  ,
-            gender    : _gender
+            gender    : _gender      , join_date : _join_date
         });
         patients[_patientAddress] = newPatient;
         isPatient[_patientAddress]=true;
         all_patiens_adresses.push(_patientAddress);
-        string []memory emptyStr = new string[](0);
-        createMedicalRecord(_patientAddress ,"","","","",emptyStr,emptyStr,emptyStr );
+        //string []memory emptyStr = new string[](0);
+        //createMedicalRecord(_patientAddress ,"","","","",emptyStr,emptyStr,emptyStr );
     }
     ////////////////////////////// Create Medical Record //////////////////////////////
     function createMedicalRecord (
@@ -132,8 +136,9 @@ contract  Contract {
         string [] memory _medical_history,
         string [] memory _diagnostic_tests,
         string [] memory _treatments )
-    public /*onlyDoctor*/ {
+    public onlyDoctor {
         require(isPatient[_patientAddress]  , "This is not a patient address wla not registred");
+        //require(isPatient[_patientAddress]  , "This is not a patient address wla not registred");
         MedicalRecord memory newMedicalRecord = MedicalRecord({
             blood_type  : _blood_type ,
             height      : _height ,
@@ -160,11 +165,18 @@ contract  Contract {
     //// get info
     function getDoctorinfo(address _adr) public view returns (Doctor memory) {
         return doctors[_adr];
-    }
-    function getPatieninfo(address _adr) public view returns (Patient memory) {
-        return patients[_adr];
-    }
-    //////////////////////////////////////////////////////////////////////////////////////
+    }                                                                                                   //        /\       //
+    function getPatieninfo(address _adr) public view returns (Patient memory) {                         //       //\\      //
+        return patients[_adr];                                                                          //      ///\\\     //
+    }                                                                                                   //     ////\\\\    //
+                                                                                                        //    /////\\\\\   //
+    function getMedicalRecordinfo(address _adr) public view returns (MedicalRecord memory) {            //   /////()\\\\\  //
+        require(!appreovedDoctors[msg.sender][_adr] , "This not your patient !"); //   \\\\|()|////  //
+        return medicalRecords[_adr];                                                                    //   ////    \\\\  //
+    }                                                                                                   //  ////||||||\\\\ //
+
+
+    //// get count
     function getDoctorsCount() public view returns (uint) {
         return all_doctors_adresses.length;
     }
@@ -189,12 +201,25 @@ contract  Contract {
         require(appreovedDoctors[msg.sender][_doctor_address] ,"Not approved");
         require(exist(msg.sender,array_of_patient) , "Doesn't exist in List of patiens of that Doctor" );
 
-
         appreovedDoctors[msg.sender][_doctor_address]=false ;                // delete Doctor from approved doctors list
 
-        array_of_patient = deleteFromArray( msg.sender , array_of_patient ); // delete patient from List of patient of Doctor
+        array_of_patient = deleteFromArray( msg.sender , array_of_patient ); // delete patient from List of patients of Doctor
         myPations[_doctor_address] = array_of_patient;
     }
+
+    function getMyDoctors() public onlyPatient view returns  (address[] memory)  {
+        address[] memory myDoctorsList = new address[](0);
+        address[] memory allDoctors = getAllDoctorAddresses();
+
+        for (uint i = 0; i < allDoctors.length ; i++) {
+            if(appreovedDoctors[msg.sender][all_doctors_adresses[i]]){
+                myDoctorsList = _addDoctor(myDoctorsList, allDoctors[i]);
+            }
+        }
+        return myDoctorsList ;
+    }
+
+
 
 
 
@@ -206,32 +231,22 @@ contract  Contract {
     function getAddressesOfMyPatiens ()public  view onlyDoctor returns(address [] memory){
         return myPations[msg.sender]   ;
     }
-
     function getPatientName(address _adr) public view returns(string memory){
-        //Patient memory p =
         return getPatieninfo(_adr).first_name;
     }
 
-    function getMyPatientsNames ()public view onlyDoctor returns(string [] memory){
-        address [] memory addresses = getAddressesOfMyPatiens();
-        string [] memory names ;
-
-        for (uint i= 0 ; i< addresses.length ; i++){
-            names[i]= getPatieninfo(addresses[i]).first_name;
-        }
-        return names ;
-    }
-
-
+    //    function getMyPatientsNames ()public view onlyDoctor returns(string [] memory){
+    //        address [] memory addresses = getAddressesOfMyPatiens();
+    //        string [] memory names ;
+    //
+    //        for (uint i= 0 ; i< addresses.length ; i++){
+    //            names[i]= getPatieninfo(addresses[i]).first_name;
+    //        }
+    //        return names ;
+    //    }
 
 
-
-
-
-
-
-
-    // Functions for code
+    // *****  Functions for code
     function deleteFromArray(address _addr , address[] memory _arr) private pure returns(address[] memory ) {
         uint indexToRemove = _arr.length ;
         address [] memory newArray = new address[](_arr.length-1); //
@@ -251,7 +266,19 @@ contract  Contract {
             newArray[k]= _arr[k];
         }
 
-        return newArray;
+        return newArray; // n7tajha fi dasapproveDoctor()
+    }
+
+    function _addDoctor(address[] memory doctorsList, address doctor) private pure returns (address[] memory) {
+        uint256 newLength = doctorsList.length + 1;
+        address[] memory newDoctorsList = new address[](newLength);
+
+        for (uint256 i = 0; i < doctorsList.length; i++) {
+            newDoctorsList[i] = doctorsList[i];
+        }
+
+        newDoctorsList[newLength - 1] = doctor;
+        return newDoctorsList; // n7tajha fi getMyDoctors
     }
 
     function exist(address _addr , address[] memory _arr) private pure returns(bool){
@@ -260,7 +287,7 @@ contract  Contract {
                 return true ;
             }
         }
-        return false ;
+        return false ; // if address kayna fi address[]
     }
 
 

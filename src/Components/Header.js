@@ -15,6 +15,7 @@ const Header = () =>{
         const accounts = await web3.eth.getAccounts()
         walletHandler(accounts[0])
     }
+
     const navigate = useNavigate()
     const [wallet_address , walletHandler]= useState()
     window.ethereum.on('accountsChanged',getAdress)
@@ -41,7 +42,7 @@ const Header = () =>{
             toast.success("Successfully logged in doctor ")
         }
         else{
-            toast.warning("You are not an doctor ")
+            toast.warning("You are not a doctor ")
             await new Promise(resolve => setTimeout(resolve, 1000))
             toast.info("log in using Metamask")
 
@@ -55,7 +56,7 @@ const Header = () =>{
             toast.success("Successfully logged in Patient ")
         }
         else{
-            toast.warning("You are not an patient ")
+            toast.warning("You are not a patient ")
             await new Promise(resolve => setTimeout(resolve, 1000))
             toast.info("log in using Metamask")
 

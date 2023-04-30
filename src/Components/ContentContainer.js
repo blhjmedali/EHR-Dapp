@@ -2,13 +2,15 @@ import React, {useState} from "react";
 import bg1 from '../images/background/5.jpg'
 import bg2 from '../images/background/img_1.png'
 import bg3 from '../images/background/img_9.jpg'
+import bg4 from '../images/background/bgg2.jpg'
+import img from '../images/svg/medical-5459631.svg'
 
 const ContentContainer = (prop)=>{
 
     const containter = {backgroundColor : "rgba(255, 255, 255, 0.7)",
                         backdropFilter  : `blur(50px) ${prop.type==='patient'?'brightness(100%)':'brightness(200%)'}  saturate(150%)`}
 
-    const style_admin={backgroundImage:`url(${bg3})` , backgroundSize:'cover'}
+    const style_admin={backgroundImage:`url(${bg1})` , backgroundSize:'cover'}
     const style_doctor={backgroundImage:`url(${bg2})` , backgroundSize:'cover'}
     const style_patient={backgroundImage:`url(${bg1})`, backgroundSize:'cover'}
 

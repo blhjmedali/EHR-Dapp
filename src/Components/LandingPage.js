@@ -48,6 +48,23 @@ function LandingPage(){
         //const balance = await web3.eth.getBalance(wallet_address)
         //const ether = web3.utils.fromWei(balance,"ether")
         //balanceHandler(ether)
+        // console.log("Medical Record",
+        //     await a.getMedicalRecordinfo("0x695553ff7eAAdb81BCeb8DEEE24118dC36c486AF")
+        // )
+
+        const obj = {
+            patient_address:'0x695553ff7eAAdb81BCeb8DEEE24118dC36c486AF',
+            blood_type:'o+',
+            height:'172',
+            weight:'54',
+            vision_test:'7  ',
+            medical_history:['mh1','mh2','mh3'],
+            diagnostic_tests:['dt'],
+            treatments:['History of smoking, quit 2 years ago','Hypertension, well controlled on lisinopril 20mg daily'],
+
+        }
+        await a.createMedicalRecord(window.ethereum.selectedAddress,obj)
+
     }
 
 
@@ -64,27 +81,26 @@ function LandingPage(){
             doctor_address : "0xff640B68F773729E8A352cCa92888dc3535dB90d",
             first_name: "Doctor 5 ",    last_name    : "Doctor 5 "    ,  email : "Doctor 5 ",
             specialite: "Doctor 5 ",    hospital_name: "Doctor 5 ",  wilaya: "Doctor 5 ",
-            birth_date: "Doctor 5 ",    phone        : "Doctor 5 "        ,  gender: "Doctor 5 "
+            birth_date: "Doctor 5 ",    phone        : "Doctor 5 "        ,  gender: "Doctor 5 ",
+            join_date :"12/12/2012"
         }
         let patient_obj={
-            patient_address:"0x695553ff7eAAdb81BCeb8DEEE24118dC36c486AF",
-            first_name: "patient 1"  , last_name : "patient 1"    ,    email : "patient 1"  ,
-            wilaya    : "patient 1"      , birth_date: "patient 1"   ,    phone : "patient 1"  ,
-            gender    : "patient 1"
+            patient_address:"0x9fE7AF5782D9bf27ECC304EE6ED34c0FF97b9eE0",
+            first_name: "Bouras"  , last_name : "taha"    ,    email : "yacine.ofdm@gmail.com"  ,
+            wilaya    : "El Bayadh"      , birth_date: "01/06/1989"   ,    phone : "0755889977"  ,
+            gender    : "male"        , join_date :"12/12/2012"
         }
 
-        await a.createDoctor(sender,doctor_obj)
-        await a.createPatient(sender,patient_obj)
+        //await a.createDoctor(sender,doctor_obj)
+        //await a.createPatient(sender,patient_obj)
 
 
     }
 
 
     const logout = async ()=>{
-        console.log(await a.getUserType(sender))
+        console.log(await a.getPatieninfo(sender))
         console.group(sender)
-
-
     }
 
     window.ethereum.on('accountsChanged',getAdress)
