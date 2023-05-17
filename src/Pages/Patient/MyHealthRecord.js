@@ -3,7 +3,7 @@ import DisplayRowKV from "../../Components/DisplayRowKV";
 import DisplayList from "../../Components/DisplayList";
 import controler from "../../controler";
 
-const MyHealthRecord = (prop) =>{
+const MyHealthRecord = () =>{
 
     const [height  , setHeight ] = useState()
     const [weight  , setWeight ] = useState()
@@ -29,10 +29,7 @@ const MyHealthRecord = (prop) =>{
             setMedicalHistory (MedicalRecordinfo.medical_history)
             setDiagnosticTests (MedicalRecordinfo.diagnostic_tests)
             setTreatments (MedicalRecordinfo.treatments)
-
             console.log(MedicalRecordinfo)
-
-
 
         }
 

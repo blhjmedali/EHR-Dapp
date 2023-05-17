@@ -8,7 +8,8 @@ import MyHealthRecord from "./MyHealthRecord";
 import MyDoctors from "./MyDoctors";
 import controler from "../../controler";
 import {useNavigate} from "react-router-dom";
-import Loading from "../../Components/Loading";
+import CompanyCard from "../Company/CompanyCard";
+
 
 const Patient=()=>{
     // UI
@@ -16,20 +17,8 @@ const Patient=()=>{
         {id:'pation_nav_item1',navItemName:'My Information'},
         {id:'pation_nav_item2',navItemName:'My Health Records'},
         {id:'pation_nav_item3',navItemName:'My Doctors'},
-        {id:'pation_nav_item4',navItemName:'Sign out'}
+        {id:'pation_nav_item4',navItemName:'Assurance Company'}
     ])          // items li fi SideBar ta3 patient (list of object )
-    const medical_records= {
-        bloodType:'O+',
-        tol:170,
-        mizan:100,
-        vision_testing:10,
-        medical_History:['History of smoking, quit 2 years ago','Hypertension, well controlled on lisinopril 20mg daily'],
-        diagnostic_Tests:['Chest X-ray: Bilateral infiltrates consistent with pneumonia.','COVID-19 test: Negative.'],
-        treatments:['Azithromycin 500mg daily for 5 days',
-            'Albuterol inhaler every 4-6 hours as needed for shortness of breath',
-            'Increased fluid intake and rest','Follow-up appointment in 1 week to reassess symptoms and response to treatment.'
-        ]
-    }        // medical records ta3 patient ( one object )
     const [selected,selectedHandler]=useState('pation_nav_item1')     // use state fiha var yedi string (selected item from sidebar)
     const [changed , chaHandler]=useState()
     function getSelectedItem(event){
@@ -40,16 +29,14 @@ const Patient=()=>{
             }
         })
     }
-    const navigate = useNavigate()
 
 
     // Back
     const [sender , setSender] = useState()
     const a = new controler(sender)
     const [patientInfo, setpatientInfo] = useState({});    // MyInformation
-    const [docCardInfo, setDocCardInfo] = useState([]);    // MyDoctors
 
-
+    const [compAddr , setCompAdr]=useState({cnas:'0x7cC31808e194EBb20429DF1FCC8056aa18062835',casnos:'0xA3bd68241A59379646109a7b399450d3E8dA1FD8'})
 
     useEffect(()=>{
         const init = async ()=> {
@@ -66,27 +53,28 @@ const Patient=()=>{
 
 
     /////////////////////////////////////////////////// change Profile
-
-
+    const navigate = useNavigate()
     const changeProfile = async () =>{
         const user_type =  await a.getUserType(window.ethereum.selectedAddress)
         chaHandler(!changed)
         if (user_type==="Admin"){
-            console.log("Admin")
             navigate("/Admin")
         }
 
         if (user_type==="Doctor"){
-            console.log("Doctor")
             navigate("/Doctor")
         }
 
         if (user_type==="Patient"){
-            console.log("Patient")
             navigate("/Patient")
         }
+        if (user_type==="Company"){
+            navigate("/Company")
+        }
+        if (user_type!="Admin"  && user_type!="Doctor"&& user_type!="Patient" && user_type!="Company"){
+            navigate("/")
+        }
     }
-
     window.ethereum.on('accountsChanged',changeProfile)
     ///////////////////////////////////////////////////
 
@@ -103,10 +91,14 @@ const Patient=()=>{
 
                 <ContentContainer type = 'patient' >
                     {/*                  orientation based on selected item                   */}
-                    <Loading/>
-                    {selected==="pation_nav_item1" && <MyInformation obj={patientInfo} isDoctor={false} />}
-                    {selected==="pation_nav_item2" && <MyHealthRecord obj2={medical_records}/> }
+                        {selected==="pation_nav_item1" && <MyInformation obj={patientInfo} isDoctor={false} />}
+                    {selected==="pation_nav_item2" && <MyHealthRecord/> }
                     {selected==="pation_nav_item3" && <MyDoctors changed={changed} /> }
+                    {selected==="pation_nav_item4" &&
+                        <div className='d-flex p-2'>
+                            <CompanyCard name="CNAS"   addr={compAddr.cnas} />
+                            <CompanyCard name="CASNOS" addr={compAddr.casnos} />
+                        </div>}
                 </ContentContainer>
 
             </Body>

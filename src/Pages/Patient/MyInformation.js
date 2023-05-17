@@ -7,7 +7,7 @@ function MyInformation(prop){
 
     const [info , infoHandler] = useState({})
     useEffect(()=>{
-        infoHandler(undefined || prop.obj)
+        infoHandler( prop.obj)
     })
 
     //console.log("MyInformation Component : ",info)
@@ -28,7 +28,8 @@ function MyInformation(prop){
                 <DisplayRowKV lbl='Phone Number' valeur={info.phone}/>
                 <DisplayRowKV lbl='Joining date' valeur={info.join_date}/>
                 <p className='text-dark d-flex justify-content-center pt-4'>
-                    <i>{info.wallet_key}</i>
+                    <i>{info.doctor_address}</i>
+                    {/*<small className='text-muted'><i>{`Join in ${info.join_date}`}</i></small>*/}
                 </p>
             </div>
         </>

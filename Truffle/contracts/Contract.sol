@@ -9,11 +9,14 @@ contract  Contract {
         admin=msg.sender;
         isAdmin[admin]=true;
         ////////////////////////////////
-        //createDoctor(0xff640B68F773729E8A352cCa92888dc3535dB90d,"first_name of Doctor","last_name of Doctor","email of Doctor","specialite of Doctor","hospital_name of Doctor","wilaya of Doctor","birth_date of Doctor","phone of Doctor","gender of Doctor","_join_date");
-        //createDoctor(0xb5b6d0E2C523ec14618D44F9AFB73195414F8786 ,"doc2","doc2","doc2","doc2","doc2","doc2","doc2","doc2","doc2","_join_date");
+        createDoctor(0xff640B68F773729E8A352cCa92888dc3535dB90d,"Mahboubi","Houssem","Houssem@gmail.com","Generalist","USTO","Oran","02/05/2000","0788996655","Male","2023");
+        createDoctor(0x695553ff7eAAdb81BCeb8DEEE24118dC36c486AF,"Ferkach","Zaki","zaki@gmail.com","cardiologue","SBA","EL-BAYADH","12/12/2000","0788996655","Male","2022");
 
-        //createPatient(0x695553ff7eAAdb81BCeb8DEEE24118dC36c486AF,"first_name pat1","last_name pat12","email pat13"," pat14","pat15","pat16","pat17","_join_date")  ;
-        //createPatient(0x9fE7AF5782D9bf27ECC304EE6ED34c0FF97b9eE0,"pat2","pat2","pat2","pat2","pat2","pat2","pat2","_join_date")  ;
+        createPatient(0x9fE7AF5782D9bf27ECC304EE6ED34c0FF97b9eE0,"Belhadj","Mohamed Ali","minato-ali@hotmail.com"," El-Bayadh","25/10/2000","0788996655","male","2023")  ;
+        createPatient(0xb5b6d0E2C523ec14618D44F9AFB73195414F8786,"Aibout","Sidahmed","sidou23@hotmail.com"," Saida","10/11/2001","0788996655","male","2020")  ;
+
+        CreateCompany(0x7cC31808e194EBb20429DF1FCC8056aa18062835, "CNAS","EL-BAYADH","0491234","cnas@mail.com","www.cnas.com","assurance company 1" )  ;
+        CreateCompany(0xA3bd68241A59379646109a7b399450d3E8dA1FD8, "CASNOS","SAIDA","0491234","casnos@mail.com","www.casnos.com","assurance company 2" )  ;
     }
     struct Doctor{
         string first_name ;
@@ -59,7 +62,6 @@ contract  Contract {
 
     mapping (address => mapping(address => bool ) ) appreovedDoctors ;  // P_adr =>( D_adr => bool )
     mapping (address => address[] ) myPations ;
-    mapping (address => address[] ) myDoctors ;   //*********
 
     mapping (address => address[] ) doctorsHistory ;
 
@@ -231,19 +233,8 @@ contract  Contract {
     function getAddressesOfMyPatiens ()public  view onlyDoctor returns(address [] memory){
         return myPations[msg.sender]   ;
     }
-    function getPatientName(address _adr) public view returns(string memory){
-        return getPatieninfo(_adr).first_name;
-    }
 
-    //    function getMyPatientsNames ()public view onlyDoctor returns(string [] memory){
-    //        address [] memory addresses = getAddressesOfMyPatiens();
-    //        string [] memory names ;
-    //
-    //        for (uint i= 0 ; i< addresses.length ; i++){
-    //            names[i]= getPatieninfo(addresses[i]).first_name;
-    //        }
-    //        return names ;
-    //    }
+
 
 
     // *****  Functions for code
@@ -295,7 +286,78 @@ contract  Contract {
     function whoIam() public view returns (address){
         return msg.sender;
     }
+    /////////////////////////////////////////////////////////////////////////////////
 
+    struct CompanyAs {
+        string company_name;
+        string location ;
+        string number ;
+        string email ;
+        string website ;
+        string description ;
+    }
+
+    mapping (address => bool) public isCompanyAs ;              //// 2
+    mapping (address => CompanyAs) private  companyAs;          ////  2
+    mapping (address => mapping(address => bool ) ) allowedCompanies ;  // P_adr =>( C_adr => bool )
+    mapping (address => address[] ) myCustomers ;      // List of the company customers
+
+
+    function CreateCompany (
+        address _companyAddress,
+        string memory _company_name,
+        string memory _location,
+        string memory _number,
+        string memory _email,
+        string memory _website,
+        string memory _description
+    )public{
+        CompanyAs memory newCompany = CompanyAs(
+            _company_name   ,
+            _location ,
+            _number   ,
+            _email    ,
+            _website  ,
+            _description);
+
+        companyAs[_companyAddress]=newCompany ;
+        isCompanyAs[_companyAddress] = true ;
+    }
+
+    function getCompanyinfo(address _adr) public view returns (CompanyAs memory) {
+        return companyAs[_adr];
+    }
+    function getAddressesOfMyCustomers ()public  view  returns(address [] memory){
+        //require(!isCompanyAs[msg.sender]  , "Only company can perform this operation");
+        return myCustomers[msg.sender]   ;
+    }
+
+
+    //mapping (address => address[] ) joinRequests ;    // yerselha customer ll Company
+    function allow(address _company_address) public {
+        //require(isPatient[msg.sender] , "Only Patient can allow company");
+        //require(isCompanyAs[_company_address] , "This address doesn't belong to a Company");
+        require(!allowedCompanies[msg.sender][_company_address],"You already allow this comp to see your medical record" );
+
+        allowedCompanies[msg.sender][_company_address]=true;
+        myCustomers[_company_address].push(msg.sender);
+    }
+    function disAllow (address _comp_address) public  {
+        address[] memory array_of_customers  = myCustomers[_comp_address];
+
+        require(allowedCompanies[msg.sender][_comp_address] ,"Not approved");
+        //require(exist(msg.sender,array_of_customers) , "Doesn't exist in List of patiens of that Doctor" );
+
+        allowedCompanies[msg.sender][_comp_address]=false ;                // delete Company from approved doctors list
+
+        array_of_customers = deleteFromArray( msg.sender , array_of_customers ); // delete patient from List of patients of Company
+        myCustomers[_comp_address] = array_of_customers;
+    }
+
+
+
+
+    /////////////////////////////////////////////////////////////////////////////////
 
 
 

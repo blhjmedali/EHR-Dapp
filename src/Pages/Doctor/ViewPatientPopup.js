@@ -4,7 +4,6 @@ import Modal from "react-bootstrap/Modal";
 import {TiChevronRight} from "react-icons/ti";
 import DisplayRowKV from "../../Components/DisplayRowKV";
 import DisplayList from "../../Components/DisplayList";
-import ico from "../../images/Icon/metamask.png"
 import controler from "../../controler";
 import {CloseButton, Form, ToggleButton} from "react-bootstrap";
 
@@ -18,25 +17,15 @@ function ViewPatientPopup(prop) {
 
     const handleClose = () => {setShow(false);setEditable(false)}
     const handleShow = () => setShow(true);
-
-
-
     // Back               // get Info from Backend
-
     const a = new controler(window.ethereum.selectedAddress)                               // Controler instance
-
     const [patientInfo, setpatientInfo] = useState({});                         // Ma ttbadalch ( read only )
-
-
-
     useEffect(()=>{
         const init = async ()=> {
             setpatientInfo( await a.getPatieninfo(prop.address) )
             //setMedicalRecord( await a.getMedicalRecordinfo(prop.address) )
-
             const MedicalRecordinfo = await a.getMedicalRecordinfo(prop.address)
-
-
+            console.log(MedicalRecordinfo)
             setHeight(MedicalRecordinfo.height)
             setWeight(MedicalRecordinfo.weight)
             setBloodType(MedicalRecordinfo.blood_type)
@@ -45,11 +34,7 @@ function ViewPatientPopup(prop) {
             setMedicalHistory (MedicalRecordinfo.medical_history)
             setDiagnosticTests (MedicalRecordinfo.diagnostic_tests)
             setTreatments (MedicalRecordinfo.treatments)
-
-
             // awal mara ycree medical record
-
-
 
         }
         init()
@@ -88,17 +73,12 @@ function ViewPatientPopup(prop) {
         console.log("From user",obj)
 
 
-
-
         try{
             await a.createMedicalRecord(window.ethereum.selectedAddress,obj)
             setShow(false)
         }catch (e) {
             console.log(e)
         }
-
-
-        //if (window.confirm("Are you sure you want to apply ?")) {}
     }
 
 
@@ -138,10 +118,14 @@ function ViewPatientPopup(prop) {
                     <hr className="hr"/>
                     <Modal.Title className='m-3 text-danger' > Medical Record :</Modal.Title>
 
-                    <Form.Check className=' d-flex justify-content-center  w-25 p-2'
-                                type="switch" label="Edit" onChange={()=>setEditable(!editable)}
-                                checked={editable}
-                    />
+
+                    {prop.doc?
+                        <Form.Check className=' d-flex justify-content-center  w-25 p-2'
+                                    type="switch" label="Edit" onChange={()=>setEditable(!editable)}
+                                    checked={editable}
+                        />:<></>
+                    }
+
 
 
                     <div className=' bg-light shadow rounded m-2 p-2'>
@@ -182,10 +166,9 @@ function ViewPatientPopup(prop) {
                 </Modal.Body>
                 <Modal.Footer>
 
-
-
                     <Button onClick={handleClose} className='btn-secondary col-2' >Close </Button>
-                    <Button onClick={saveBTN} disabled={!editable} className='col-2 btn-success' >Save </Button>
+                    {prop.doc ?<Button onClick={saveBTN} disabled={!editable} className='col-2 btn-success' >Save </Button>:<></>}
+
                 </Modal.Footer>
             </Modal>
         </>

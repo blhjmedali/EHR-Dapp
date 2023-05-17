@@ -2,128 +2,90 @@ import React, {useState} from "react";
 import Web3 from "web3";
 import myContract from '../Contract.json'
 import controler from "../controler"
-async function connectToMetaMask() {
-    if (typeof window.ethereum !== 'undefined') {
-        // Use MetaMask provider
-        const provider = window.ethereum;
-        try {
-            // Request account access
-            await provider.request({ method: 'eth_requestAccounts' });
-            // Create a new Web3 instance
-            const web3 = new Web3(provider);
-            // Get the user's Ethereum address
-            const accounts = await web3.eth.getAccounts();
-            const address = accounts[0];
-            console.log(`Connected to MetaMask with address: ${address}`);
-            return web3;
-        } catch (error) {
-            console.error('Failed to connect to MetaMask', error);
-        }
-    } else {
-        console.error('MetaMask is not installed');
-    }
-}
-function getContractMethodes(contract){
-    const methodes =[]
-    for (const methode in contract.methods){
-        methodes.push(methode)
-    }
-    return methodes
-}
-function getSelectedAddress(){
-    return window.ethereum.selectedAddress
-}
+import Button from "react-bootstrap/Button";
+import img from "../images/Icon/metamask.png"
+import bg from "../images/svg/bg.svg"
+import bg2 from "../images/svg/vecteezy_close-up-of-a-stethoscope-and-digital-tablet-with-virtual_22874499_3.jpg"
+import {useNavigate} from "react-router-dom";
+
+
+
+
 
 function LandingPage(){
 
-    const [wallet_address , walletHandler]= useState(null)
+    const [wallet_address , walletHandler]= useState()
     const [balance , balanceHandler]= useState(null)
 
+    const a = new controler(window.ethereum.selectedAddress)
 //   ********    Inisialisation    ********
 
-    const getAdress = async ()=>{
-        walletHandler(getSelectedAddress)
+
+    function getSelectedAddress(){
+        walletHandler(window.ethereum.selectedAddress )
     }
-    const getbalance = async ()=>{
-        //const balance = await web3.eth.getBalance(wallet_address)
-        //const ether = web3.utils.fromWei(balance,"ether")
-        //balanceHandler(ether)
-        // console.log("Medical Record",
-        //     await a.getMedicalRecordinfo("0x695553ff7eAAdb81BCeb8DEEE24118dC36c486AF")
-        // )
+    async function connectMetamask(){  a.connectToMetaMask() }
 
-        const obj = {
-            patient_address:'0x695553ff7eAAdb81BCeb8DEEE24118dC36c486AF',
-            blood_type:'o+',
-            height:'172',
-            weight:'54',
-            vision_test:'7  ',
-            medical_history:['mh1','mh2','mh3'],
-            diagnostic_tests:['dt'],
-            treatments:['History of smoking, quit 2 years ago','Hypertension, well controlled on lisinopril 20mg daily'],
+    async function getBalance  (){
+        balanceHandler(await a.getBalance(window.ethereum.selectedAddress))
 
+    }
+
+
+
+    /////////////////////////////////////////////////// change Profile
+    const navigate = useNavigate()
+    const getUserType = async () =>{
+        const user_type =  await a.getUserType(window.ethereum.selectedAddress)
+        if (user_type==="Admin"){
+            navigate("/Admin")
         }
-        await a.createMedicalRecord(window.ethereum.selectedAddress,obj)
-
-    }
-
-
-
-
-
-
-
-    const sender = window.ethereum.selectedAddress
-    const a = new controler(sender)
-
-    const gsa = async ()=>{
-        let doctor_obj ={
-            doctor_address : "0xff640B68F773729E8A352cCa92888dc3535dB90d",
-            first_name: "Doctor 5 ",    last_name    : "Doctor 5 "    ,  email : "Doctor 5 ",
-            specialite: "Doctor 5 ",    hospital_name: "Doctor 5 ",  wilaya: "Doctor 5 ",
-            birth_date: "Doctor 5 ",    phone        : "Doctor 5 "        ,  gender: "Doctor 5 ",
-            join_date :"12/12/2012"
+        if (user_type==="Doctor"){
+            navigate("/Doctor")
         }
-        let patient_obj={
-            patient_address:"0x9fE7AF5782D9bf27ECC304EE6ED34c0FF97b9eE0",
-            first_name: "Bouras"  , last_name : "taha"    ,    email : "yacine.ofdm@gmail.com"  ,
-            wilaya    : "El Bayadh"      , birth_date: "01/06/1989"   ,    phone : "0755889977"  ,
-            gender    : "male"        , join_date :"12/12/2012"
+        if (user_type==="Patient"){
+            navigate("/Patient")
         }
-
-        //await a.createDoctor(sender,doctor_obj)
-        //await a.createPatient(sender,patient_obj)
-
-
+        if (user_type==="Company"){
+            navigate("/Company")
+        }
+        if (user_type!="Admin"  && user_type!="Doctor"&& user_type!="Patient" && user_type!="Company"){
+            navigate("/")
+        }
     }
+    window.ethereum.on('accountsChanged',getUserType)
+    ///////////////////////////////////////////////////
 
-
-    const logout = async ()=>{
-        console.log(await a.getPatieninfo(sender))
-        console.group(sender)
-    }
-
-    window.ethereum.on('accountsChanged',getAdress)
-    window.ethereum.on('connect',getAdress)
+    async function whoiam() {await a.getAddressesOfMyCustomers()}
 
     return(
-        <div className='bg-secondary vh-100' >
-            <div className=' d-flex  justify-content-center ' >
-                <div className=' w-50 bg-secondary border m-4 p-2  rounded shadow-sm'>
-                    <button onClick={connectToMetaMask} className='btn btn-dark  shadow-sm m-2'>Connect Metamask</button>
-                    <h6>Statue :</h6>
-                    <button onClick={getAdress} className='btn btn-light shadow-sm m-2 '>Get Address </button>
-                    <h6>Wallet address : {wallet_address}</h6>
-                    <button onClick={getbalance} className='btn btn-light shadow-sm m-2 '>Get Balence </button>
-                    <h6>balance : {balance}</h6>
+        <div className='vh-100 text-white' style={{backgroundImage:`url(${bg2})`,backgroundSize:'cover'}}>
+            <div className=' d-flex vh-100  justify-content-center  ' >
+
+                <div className=' w-50 align-self-center p-4  rounded shadow' style={{backgroundColor : "rgba(0, 0, 0, 0.9)"}}>
+                    <h1>EHR-DAPP  </h1>
+                    <span>This DAPP is a graduation project for M2 SIC , Install Metamask and allow this website</span>
+
+                    <Button  className='btn-light m-2' onClick={connectMetamask}>
+                        <img className='navbar-toggler-icon' src={img}/>
+                        Connect Metamask
+                    </Button>
+                    <br/>
+                    <span>There is two different type of user ( Doctor and Patient  )</span><br/>
 
 
-                    <button onClick={gsa}>get selected address</button>
-                    <button onClick={logout}>logout</button>
+                    <Button onClick={getSelectedAddress} className=' btn-light shadow-sm m-2 '>Get Address </Button>
+                    <h6>Adresse  : {wallet_address}</h6>
+
+                    <Button onClick={getBalance} className=' btn-light shadow-sm m-2 '>Get Balence </Button>
+                    <h6>Balance : {balance}</h6>
+
+                    <Button onClick={whoiam}> address</Button>
 
 
 
                 </div>
+
             </div>
         </div>
     )

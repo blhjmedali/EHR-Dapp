@@ -5,6 +5,7 @@ import DisplayRowKV from "../../Components/DisplayRowKV";
 import Button from "react-bootstrap/Button";
 import DoctorInfoPopUp from "./DoctorInfoPopUp";
 import controler from "../../controler";
+import admin from "../Admin/Admin";
 
 const DoctorCard = (prop)=> {
 
@@ -22,16 +23,16 @@ const DoctorCard = (prop)=> {
         prop.f5()
 
     }
-
+    const bg = prop.admin ?"bg-dark bg-opacity-10":"bg-light bg-opacity-75"
     return(
-        <Card className='m-3 ' >
+        <Card className={'m-3 '+bg} >
             <Card.Header className={`d-flex justify-content-center text-light bg-${color}`}>
                 <small><i>{prop.obj.address}</i></small>
             </Card.Header>
             <Card.Body>
                 <div className='d-flex'>
                     <Card.Img className={`w-25  align-items-center h-100 bg-${""}`} src={img}/>
-                    <div className='bg-light w-75'>
+                    <div className='w-75'>
                         <DisplayRowKV lbl='Name' valeur={
                             `${prop.obj.first_name} ${prop.obj.last_name}`
                         } />
@@ -42,9 +43,10 @@ const DoctorCard = (prop)=> {
                     </div>
                 </div>
             </Card.Body>
-            <Card.Footer className='d-flex justify-content-around'>
+            <Card.Footer className={'d-flex justify-content-around bg-'}>
                 <DoctorInfoPopUp addr={prop.obj.address} />
-                <Button onClick={deleteHandler} className='btn-danger col-2'>Delete</Button>
+                {!prop.admin ?<Button onClick={deleteHandler} className='btn-danger col-2'>Delete</Button>: <></> }
+
 
             </Card.Footer>
         </Card>

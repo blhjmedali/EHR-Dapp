@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from "react";
 import PatiensListComponent from "../Doctor/PatiensListComponent";
 import Form from "../../Components/Form";
+import {FaUser} from "react-icons/fa";
+import contoler from "../../controler";
 
 function PatientsAdm(){
 
@@ -13,8 +15,21 @@ function PatientsAdm(){
     const[state , stateHandler]=useState('view')
 
     const [click,setClick]=useState(false)
+    const [num , setNum]=useState()
+    let a = new contoler(window.ethereum.selectedAddress)
 
-    useEffect(()=>{},[click , state])
+    useEffect(()=>{
+        async function init() {
+            const pc =await a.getPatiensCount()
+            const dc =await a.getDoctorsCount()
+
+            setNum(pc)
+
+        }
+        init()
+    },[click , state])
+
+
 
 
     return(
@@ -27,7 +42,13 @@ function PatientsAdm(){
 
             <hr className="hr  "/>
 
-            {state==='view'?<PatiensListComponent patients_array={patients_array}/>:<Form on={setClick} userType='patient'/> }
+            {state==='view'?
+                <div className='w-50   d-flex justify-content-around align-content-center  '>
+                    <h5>Number of Patients :  </h5>
+                    <div className='p-1 shadow w-25 bg-primary text-center rounded-5 '>
+                         <FaUser/> {num}
+                    </div>
+                </div> :<Form on={setClick} userType='patient'/> }
 
         </>
     )

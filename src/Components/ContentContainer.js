@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import bg1 from '../images/background/5.jpg'
 import bg2 from '../images/background/img_1.png'
-import bg3 from '../images/background/img_9.jpg'
-import bg4 from '../images/background/bgg2.jpg'
+import bg3 from '../images/background/img.png'
+import bg4 from '../images/background/img_2.png'
 import img from '../images/svg/medical-5459631.svg'
 
 const ContentContainer = (prop)=>{
@@ -13,6 +13,7 @@ const ContentContainer = (prop)=>{
     const style_admin={backgroundImage:`url(${bg1})` , backgroundSize:'cover'}
     const style_doctor={backgroundImage:`url(${bg2})` , backgroundSize:'cover'}
     const style_patient={backgroundImage:`url(${bg1})`, backgroundSize:'cover'}
+    const style_cnas={backgroundImage:`url(${bg3})`, backgroundSize:'cover'}
 
 
     let style
@@ -20,6 +21,7 @@ const ContentContainer = (prop)=>{
     if(prop.type === 'admin')   {style =style_admin} //styleHandler(style_admin)}
     if(prop.type === 'doctor')  {style =style_doctor} //styleHandler(style_doctor)}
     if(prop.type === 'patient') {style =style_patient} //styleHandler(style_patient)}
+    if(prop.type === 'company') {style =style_cnas} //styleHandler(style_patient)}
 
     return(
         <div style={style} className='bg-light w-100 overflow-auto p-5'>

@@ -20,7 +20,7 @@ const Doctor= ()=>{
         {id:'doctor_nav_itm_3',navItemLink:'#',navItemName:'Sign out'}
     ]        // items li fi SideBar ta3 patient (list of object )
     const [changed , chaHandler]=useState()
-    const navigate = useNavigate()
+
 
     // Back
     const [sender , setSender]=useState()
@@ -31,14 +31,15 @@ const Doctor= ()=>{
         const init = async ()=> {
             setSender(window.ethereum.selectedAddress)
             setDoctorInfo( await a.getDoctorinfo(window.ethereum.selectedAddress) )
+            //toast.success("Welcome "+doctorInfo.first_name,{position: "top-left" , theme: "dark"})
         }
 
         init()
-        toast.success("Welcome "+doctorInfo.first_name,{position: "top-left" , theme: "dark"})
+
     },[changed])
 
     /////////////////////////////////////////////////// change Profile
-
+    const navigate = useNavigate()
     const changeProfile = async () =>{
         const user_type =  await a.getUserType(window.ethereum.selectedAddress)
         chaHandler(!changed)
@@ -53,10 +54,15 @@ const Doctor= ()=>{
         if (user_type==="Patient"){
             navigate("/Patient")
         }
+        if (user_type==="Company"){
+            navigate("/Company")
+        }
+        if (user_type!="Admin"  && user_type!="Doctor"&& user_type!="Patient" && user_type!="Company"){
+            navigate("/")
+        }
     }
     window.ethereum.on('accountsChanged',changeProfile)
     ///////////////////////////////////////////////////
-
 
     function getSelectedItem(event){
         doctor_nav_items.map((item)=> {
@@ -65,6 +71,7 @@ const Doctor= ()=>{
             }
         })
     }
+
     return(
         <Body>
             <SideBar title="Doctor" onClickInItem={getSelectedItem} aray={doctor_nav_items} pic={img}
@@ -73,7 +80,6 @@ const Doctor= ()=>{
                 {selected==='doctor_nav_itm_1'&&<MyInformation obj={doctorInfo} isDoctor={true}/>}
                 {selected==='doctor_nav_itm_2'&&<MyPatients/>}
             </ContentContainer>
-
         </Body>
     )
 }

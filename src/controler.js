@@ -1,14 +1,15 @@
 import Web3 from "web3";
 import myContract from "./Contract.json";
 import {toast} from "react-toastify";
+import {useNavigate} from "react-router-dom";
 
 
 class contoler {
      constructor (sender) {
-         this.contractAddress = "0xec6824C981A154e592F35f233B626E05651B1c7b"
+         this.contractAddress = "0xDd934c307677ee1B04DaD2477d0Ed187780033E8"
          this.sender = sender
          this.web3 = new Web3(window.ethereum)
-         this.contract = new this.web3.eth.Contract(myContract.abi,this.contractAddress,{from :sender ,  gas: 1000000})
+         this.contract = new this.web3.eth.Contract(myContract.abi,this.contractAddress,{from :sender})
      }
 
     // *****************  FREE  *****************
@@ -29,6 +30,9 @@ class contoler {
     async isPatient(address){
         return await this.contract.methods.isPatient(address).call()
     }
+    async isCompanyAs(address){
+        return await this.contract.methods.isCompanyAs(address).call()
+    }
 
     async getAllDoctorAddresses(){
         return await this.contract.methods.getAllDoctorAddresses().call()
@@ -43,6 +47,17 @@ class contoler {
     async getPatieninfo(doctor_address){
         return await this.contract.methods.getPatieninfo(doctor_address).call()
     }
+    async getCompanyinfo(company_address){
+        return await this.contract.methods.getCompanyinfo(company_address).call()
+    }
+
+    async getPatiensCount(){
+        return await this.contract.methods.getPatiensCount().call()
+    }
+    async getDoctorsCount(){
+        return await this.contract.methods.getDoctorsCount().call()
+    }
+
     async getMedicalRecordinfo(address){
         return await this.contract.methods.getMedicalRecordinfo(address).call()
     }
@@ -50,10 +65,15 @@ class contoler {
     async getAddressesOfMyPatiens(){
         return await this.contract.methods.getAddressesOfMyPatiens().call()
     }
+    async getAddressesOfMyCustomers(){
+        return await this.contract.methods.getAddressesOfMyCustomers().call()
+    }
     async getUserType(address){
         if (await this.isAdmin(address) ) return "Admin"
         if (await this.isDoctor(address) ) return "Doctor"
         if (await this.isPatient(address) ) return "Patient"
+        if (await this.isCompanyAs(address) ) return "Company"
+
     }
 
 
@@ -63,7 +83,7 @@ class contoler {
 
 
     // ***************** COST GAS *****************
-    async createDoctor(sender , obj ){
+    async createDoctor (sender , obj ){
         await this.contract.methods
             .createDoctor(
                 obj.doctor_address ,
@@ -83,7 +103,8 @@ class contoler {
                 console.log(recipt)
             })
             .catch( error => {
-                console.log("Only Admin Can add Patient")
+                console.log("Only Admin Can add Patient controler")
+                console.log(error)
             })
     }
     async createPatient(sender , obj ){
@@ -104,7 +125,8 @@ class contoler {
                 console.log(recipt)
             })
             .catch( error => {
-                console.log("Only Admin Can add Patient")
+                console.log("Only Admin Can add Patient controler")
+                console.log(error)
             })
     }
     async createMedicalRecord(sender , obj ){
@@ -118,12 +140,13 @@ class contoler {
                 obj.medical_history,
                 obj.diagnostic_tests,
                 obj.treatments
-            ).send({from:sender})
+            ).send({from:sender })
             .then(recipt => {
                 console.log(recipt)
             })
             .catch( error => {
-                console.log("Only Doctor Can add Patient")
+                console.log("Only Doctor Can add Patient Medical Record")
+                console.log(error)
             })
     }
     async approveDoctor(address , sender){
@@ -162,6 +185,73 @@ class contoler {
              console.log(e.message)
          }
     }
+
+    async allow(address , sender){
+        try {
+            await this.contract.methods.allow(address)
+                .send({from : sender})
+                .then(recipt => {
+                    console.log("Allow this company \n")
+                    console.log(recipt)
+                    //window.location.reload()
+                })
+        }catch (e) {
+            const error_message = e.message
+            console.log(error_message)
+        }
+    }
+    async disAllow(address , sender){
+        try {
+            await this.contract.methods.disAllow(address)
+                .send({from : sender})
+                .then(recipt => {
+                    console.log("delete company successfully \n")
+                    console.log(recipt)
+                })
+                .then(toast("Successfully delete company "))
+        }catch (e) {
+            console.log(e.message)
+        }
+    }
+
+
+
+
+    /// Metamask
+    async connectToMetaMask() {
+        if (typeof window.ethereum !== 'undefined') {
+            const provider = window.ethereum;
+            try {
+                await provider.request({ method: 'eth_requestAccounts' });
+                const web3 = new Web3(provider);
+
+                const accounts = await web3.eth.getAccounts();
+                const address = accounts[0];
+                console.log(`Connected to MetaMask with address: ${address}`);
+                return web3;
+            } catch (error) {
+                console.error('Failed to connect to MetaMask', error);
+            }
+        } else {
+            console.error('MetaMask is not installed');
+        }
+    }
+    async getContractMethodes(){
+        const methodes =[]
+        for (const methode in this.contract.methods){
+            methodes.push(methode)
+        }
+        return methodes
+    }
+    async getBalance (address){
+        const balance = await this.web3.eth.getBalance(address)
+        const ether = this.web3.utils.fromWei(balance,"ether")
+        return ether
+
+    }
+
+
+
 
 }
 export default contoler

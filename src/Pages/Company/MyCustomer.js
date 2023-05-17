@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react";
 import DisplayPationsRow from "../../Components/DisplayPationsRow";
-import PatientCard from "./PatientCard";
+import PatientCard from "../Doctor/PatientCard";
 import contoler from "../../controler";
 
-const MyPatients = ()=>{
+const MyCustomer = ()=>{
 
     const [changed , chaHandler]=useState(false)
-    const [pat_info , setPatinfo]= useState([])
+    const [cus_info , setCusinfo]= useState([])
 
 
     const changeProfile = async () =>{
@@ -15,17 +15,16 @@ const MyPatients = ()=>{
 
     useEffect(()=>{
         async function init(){
+
             let a = new contoler(window.ethereum.selectedAddress)
-
-            let pat_addresses = (await a.getAddressesOfMyPatiens())
-
+            let cus_addresses = (await a.getAddressesOfMyCustomers())
+            console.log(cus_addresses)
             const info=[]
-            for (let i of pat_addresses){
+            for (let i of cus_addresses){
                 const obj = Object.assign({},{"address":i},await a.getPatieninfo(i))
                 info.push(obj)
             }
-
-            setPatinfo(info)
+            setCusinfo(info)
             //console.log('HI',pat_addresses, 'My Address' ,window.ethereum.selectedAddress )
         }
         init()
@@ -39,12 +38,12 @@ const MyPatients = ()=>{
 
     return(
         <>
-            <h4 className='text-dark '><b>My Patiens : </b></h4>
+            <h4 className='text-dark '><b>Customer : </b></h4>
             <hr className="hr shadow"/>
 
             {
-                pat_info.map( (item, index)=>{
-                    return <PatientCard key ={index} fname={item.first_name} lname={item.last_name} wily={item.wilaya} addr={item.address} doc={true}/>
+                cus_info.map( (item, index)=>{
+                    return <PatientCard key ={index} fname={item.first_name} lname={item.last_name} wily={item.wilaya} addr={item.address} doc={false}/>
                 })
             }
 
@@ -54,4 +53,4 @@ const MyPatients = ()=>{
     )
 }
 
-export default MyPatients
+export default MyCustomer

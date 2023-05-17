@@ -24,7 +24,7 @@ function PatientCard(prop) {
                 </div>
 
 
-                <ViewPatientPopup address={prop.addr} />
+                <ViewPatientPopup address={prop.addr} doc={prop.doc} />
 
 
             </Card.Body>

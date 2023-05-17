@@ -10,6 +10,8 @@ import {useNavigate} from "react-router-dom";
 
 const Admin=()=>{
 
+    const a = new controler(window.ethereum.selectedAddress)
+
 
     const[selected_nav_item,selectedHandler]=useState('1')
     const admin_nav_items=[
@@ -17,6 +19,7 @@ const Admin=()=>{
         {id:'2',navItemLink:'#',navItemName:'Doctors'},
         {id:'3',navItemLink:'#',navItemName:'Log out'}
     ]
+
     function getSelectedItem(event){
         admin_nav_items.map((item)=> {
             if(event.target.id=== item.id){
@@ -27,24 +30,23 @@ const Admin=()=>{
 
 
     /////////////////////////////////////////////////// change Profile
-    let sender = window.ethereum.selectedAddress
-    const a = new controler(sender)
     const navigate = useNavigate()
     const getUserType = async () =>{
         const user_type =  await a.getUserType(window.ethereum.selectedAddress)
         if (user_type==="Admin"){
-            console.log("Admin")
             navigate("/Admin")
         }
-
         if (user_type==="Doctor"){
-            console.log("Doctor")
             navigate("/Doctor")
         }
-
         if (user_type==="Patient"){
-            console.log("Patient")
             navigate("/Patient")
+        }
+        if (user_type==="Company"){
+            navigate("/Company")
+        }
+        if (user_type!="Admin"  && user_type!="Doctor"&& user_type!="Patient" && user_type!="Company"){
+            navigate("/")
         }
     }
     window.ethereum.on('accountsChanged',getUserType)

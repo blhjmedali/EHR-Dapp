@@ -7,7 +7,6 @@ const DisplayRowKV =(props)=>{
 
     function onChange(e){
         //setNewValue()
-        console.log(e.target.value)
         props.setValue(e.target.value)
         //props.setValue(e.target.value)
 

@@ -1,10 +1,6 @@
 import React, {useEffect, useState} from "react";
 import Header from "./Components/Header";
-import Footer from "./Components/Footer";
-import {Spinner} from "react-bootstrap";
-
-
-import {Admin,Doctor,Pation} from "./Pages/indexPages";
+import {Admin,Doctor,Pation , Company} from "./Pages/indexPages";
 import {BrowserRouter, Routes, Route, useNavigate,Link} from "react-router-dom";
 import LandingPage from "./Components/LandingPage";
 import controler from "./controler";
@@ -16,26 +12,21 @@ import controler from "./controler";
 function App () {
 
 
-    let sender = window.ethereum.selectedAddress
-    const a = new controler(sender)
-    //console.log(sender)
+    let a = new controler(window.ethereum.selectedAddress)
 
-    //let navigate = useNavigate()
     const getUserType = async () =>{
         const user_type =  await a.getUserType(window.ethereum.selectedAddress)
         if (user_type==="Admin"){
             console.log("Admin")
-            //window.location.reload();
         }
         if (user_type==="Doctor"){
             console.log("Doctor")
-            //window.location.reload();
-
         }
         if (user_type==="Patient"){
             console.log("Patient")
-            //window.location.reload();
-
+        }
+        if (user_type==="Company"){
+            console.log("Company")
         }
 
     }
@@ -48,6 +39,7 @@ function App () {
                 <Route path='/Doctor'  element={<Doctor/>}/>
                 <Route path='/Admin'   element={<Admin/>}/>
                 <Route path='/Patient' element={<Pation/>}/>
+                <Route path='/Company' element={<Company/>}/>
                 <Route path='/' element={<LandingPage/>}/>
             </Routes>
         )
@@ -65,8 +57,6 @@ function App () {
 
         </div>
     );
-    //                <Footer/>
-
 }
 
 
