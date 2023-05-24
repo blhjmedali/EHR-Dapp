@@ -30,7 +30,7 @@ const SideBar = (prop)=>{
             <ul className='navbar-nav   '>
                 {s_nav_item}
             </ul> <hr className="hr"/>
-            <p className="text-center text-secondary " >© 2023 UnivSaida </p>
+            <p className="text-center text-secondary " >© 2023 Belhadj  </p>
 
         </div>
 
