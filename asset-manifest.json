@@ -1,24 +1,23 @@
 {
   "files": {
     "main.css": "/EHR-Dapp/static/css/main.3cbc5845.css",
-    "main.js": "/EHR-Dapp/static/js/main.0b9d4216.js",
+    "main.js": "/EHR-Dapp/static/js/main.d5918f37.js",
     "static/media/vecteezy_3d-render-hand-carrying-heart_13091288_470.png": "/EHR-Dapp/static/media/vecteezy_3d-render-hand-carrying-heart_13091288_470.770d1d0fad68e82ceff3.png",
     "static/media/vecteezy_close-up-of-a-stethoscope-and-digital-tablet-with-virtual_22874499_3.jpg": "/EHR-Dapp/static/media/vecteezy_close-up-of-a-stethoscope-and-digital-tablet-with-virtual_22874499_3.3f920fc15616f6ab797a.jpg",
     "static/media/img.png": "/EHR-Dapp/static/media/img.222b9f9bb3cbe0dc8ff9.png",
-    "static/media/img_2.png": "/EHR-Dapp/static/media/img_2.958c0a170e9b3a74e2d1.png",
     "static/media/img_1.png": "/EHR-Dapp/static/media/img_1.a905d5a6c57e78e0ea25.png",
-    "static/media/bg.svg": "/EHR-Dapp/static/media/bg.571621d71e7426c2330a0cc2e9a0843a.svg",
     "static/media/5.jpg": "/EHR-Dapp/static/media/5.fd5cb4f07ea33e2b524f.jpg",
     "static/media/metamask.png": "/EHR-Dapp/static/media/metamask.33704dd7b1c613601c4d.png",
     "static/media/Pation.png": "/EHR-Dapp/static/media/Pation.e1e7661bb9333f5900bc.png",
     "static/media/Doctor.png": "/EHR-Dapp/static/media/Doctor.a188f064eb31a4e79494.png",
+    "static/media/img_2.png": "/EHR-Dapp/static/media/img_2.958c0a170e9b3a74e2d1.png",
     "static/media/medical-5459631.svg": "/EHR-Dapp/static/media/medical-5459631.bf5a9fa4b093c7eb21055381106303f7.svg",
     "index.html": "/EHR-Dapp/index.html",
     "main.3cbc5845.css.map": "/EHR-Dapp/static/css/main.3cbc5845.css.map",
-    "main.0b9d4216.js.map": "/EHR-Dapp/static/js/main.0b9d4216.js.map"
+    "main.d5918f37.js.map": "/EHR-Dapp/static/js/main.d5918f37.js.map"
   },
   "entrypoints": [
     "static/css/main.3cbc5845.css",
-    "static/js/main.0b9d4216.js"
+    "static/js/main.d5918f37.js"
   ]
 }
