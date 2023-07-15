@@ -1,7 +1,9 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import FormInputRow from "../Pages/Admin/FormInputRow";
 import contoler from "../controler";
-import Button from "react-bootstrap/Button";
+
+
+// this component is a form that used by <Admin/> to create new (Doctor / Patient )
 
 function Form (prop){
     const wilayat = ['Adrar','Chlef','Laghouat','Oum El Bouaghi','Batna','Béjaïa','Biskra','Béchar','Blida','Bouïra','Tamanrasset','Tébessa','Tlemcen','Tiaret','Tizi Ouzou','Algiers','Djelfa','Jijel','Sétif','Saïda','Skikda','Sidi Bel Abbès','Annaba','Guelma','Constantine','Médéa','Mostaganem','M\'Sila,Mascara','Ouargla','Oran','El Bayadh','Illizi','Bordj Bou Arréridj','Boumerdes','El Taref','Tindouf','Tissemsilt','El Oued','Khenchela','Souk Ahras','Tipaza','Mila','Ain Defla','Naâma','Ain Timouchent','Ghardaia','Relizane',"El M\'Ghair","El Menia","Ouled Djellal","Bordj Baji Mokhtar","Béni Abbès","Timimoun","Touggourt","Djanet","In Salah",'In Guezzam']
@@ -18,17 +20,18 @@ function Form (prop){
     async function submitHandler(e){
         e.preventDefault()
         info.join_date = getDate()
+
+        // create instance of controller
         let sender = window.ethereum.selectedAddress
         const a = new contoler(sender)
+
+        // create patient or doctor depending on form type ( New doctor form / New patient form )
         isDoctor()? await a.createDoctor(sender,info)  : await a.createPatient(sender,info)
         prop.on(e=>!e)  // reset
     }
 
-
-    function isDoctor(){
-        return prop.userType!='patient'
-    }
-    const style = isDoctor()?{backgroundColor:' rgba(200, 255, 200, 0.1)'}:{backgroundColor:' rgba(0, 0, 255, 0.1   )'}
+    // check type of form ( doctor form / patient form )
+    function isDoctor() { return prop.userType!='patient'}
 
 
 
@@ -37,18 +40,23 @@ function Form (prop){
             <h2>Form {isDoctor() ? "doctor": "patient" }</h2>
 
             <form onSubmit={submitHandler}>
+                {/*     Wallet Address     */}
                 <FormInputRow pattern={"^(0x)?[0-9a-fA-F]{40}$"}  lbl='Wallet Id'  inpt_type='text' class='row '
                               onChange={e=>{ isDoctor() ?
                                   info.doctor_address = e.target.value :
                                   info.patient_address = e.target.value}}/>
 
+                {/*     First name   &   Last name     */}
                 <div className='d-flex justify-content-between'>
                     <FormInputRow pattern={"^[a-zA-Z'-]+$"}  onChange={e=>info.first_name = e.target.value}     lbl='First Name' inpt_type='text' class='row w-50' />
                     <FormInputRow pattern={"^[a-zA-Z'-]+$"}  onChange={e=>info.last_name  = e.target.value}     lbl='Last Name'  inpt_type='text' class='row w-50'/>
                 </div>
+
+                {/*     Email     */}
                 <FormInputRow pattern={"[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"} onChange={e=>info.email = e.target.value}  lbl='Email' inpt_type='email' class='row '/>
 
                 {!isDoctor()?<></>:
+                    // if doctor form add specialite & hospital
                     <div className='d-flex justify-content-between'>
                         <FormInputRow pattern={"^[a-zA-Z'-]+$"} onChange={e=>info.specialite = e.target.value} lbl='Speciality' inpt_type='text' class='row w-50' />
                         <FormInputRow pattern={"^[a-zA-Z'-]+$"} onChange={e=>info.hospital_name = e.target.value} lbl='Hospital / Clinic'  inpt_type='text' class='row w-50'/>
@@ -75,7 +83,7 @@ function Form (prop){
                     </div>
                 </fieldset>
 
-
+                {/*     Submit button     */}
                 <div className='d-flex justify-content-center mt-4'>
                     <button className={' btn  w-25 shadow '.concat(isDoctor()?'btn-success':'btn-primary')} >Submit</button>
                 </div>

@@ -7,7 +7,6 @@ import MyInformation from "../Patient/MyInformation";
 import MyPatients from "./MyPatients";
 import controler from "../../controler";
 import {useNavigate} from "react-router-dom";
-import {toast} from "react-toastify";
 
 
 
@@ -23,22 +22,19 @@ const Doctor= ()=>{
 
 
     // Back
-    const [sender , setSender]=useState()
-    const a = new controler(sender)
+    const a = new controler(window.ethereum.selectedAddress)
     const [doctorInfo, setDoctorInfo] = useState({});
+
 
     useEffect(()=>{
         const init = async ()=> {
-            setSender(window.ethereum.selectedAddress)
             setDoctorInfo( await a.getDoctorinfo(window.ethereum.selectedAddress) )
-            //toast.success("Welcome "+doctorInfo.first_name,{position: "top-left" , theme: "dark"})
         }
-
         init()
 
     },[changed])
 
-    /////////////////////////////////////////////////// change Profile
+     // Change Profile if user change metamask account //
     const navigate = useNavigate()
     const changeProfile = async () =>{
         const user_type =  await a.getUserType(window.ethereum.selectedAddress)
@@ -64,6 +60,7 @@ const Doctor= ()=>{
     window.ethereum.on('accountsChanged',changeProfile)
     ///////////////////////////////////////////////////
 
+    // Get selacted item from sidebar
     function getSelectedItem(event){
         doctor_nav_items.map((item)=> {
             if(event.target.id=== item.id){

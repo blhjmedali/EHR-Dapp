@@ -5,25 +5,29 @@ import DisplayRowKV from "../../Components/DisplayRowKV";
 import Button from "react-bootstrap/Button";
 import DoctorInfoPopUp from "./DoctorInfoPopUp";
 import controler from "../../controler";
-import admin from "../Admin/Admin";
 
 const DoctorCard = (prop)=> {
 
-    //const [first_name , last_name]=prop.obj
-    //console.log(prop.obj)
-
+    // UI
     const color ="dark"
+    const bg = prop.admin ?"bg-dark bg-opacity-10":"bg-light bg-opacity-75"
 
+    // if patient want to delete a doctor from [approved doctors]
     const deleteHandler = async () =>{
-        const sender = window.ethereum.selectedAddress;
+        // create instance of controller
+        const sender = window.ethereum.selectedAddress
+        const a = new controler(sender)
+
+        // get doctor address to delete from parent component
         const doc_addr = prop.obj.address
-        const a = new controler(sender);
+
+        // call disapprove methode from controller
         await a.disapproveDoctor(doc_addr , sender);
-        //window.location.reload()
         prop.f5()
 
     }
-    const bg = prop.admin ?"bg-dark bg-opacity-10":"bg-light bg-opacity-75"
+
+
     return(
         <Card className={'m-3 '+bg} >
             <Card.Header className={`d-flex justify-content-center text-light bg-${color}`}>

@@ -55,8 +55,7 @@ function DoctorInfoPopUp(prop) {
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <button className="btn btn-secondary " >Close</button>
-                    <button className='btn btn-primary ' >Submit</button>
+                    <button className="btn btn-secondar" onClick={handleClose} >Close</button>
                 </Modal.Footer>
             </Modal>
         </>

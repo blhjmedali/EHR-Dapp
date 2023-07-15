@@ -1,12 +1,13 @@
 import Web3 from "web3";
 import myContract from "./Contract.json";
 import {toast} from "react-toastify";
-import {useNavigate} from "react-router-dom";
 
 
 class contoler {
      constructor (sender) {
-         this.contractAddress = "0xDd934c307677ee1B04DaD2477d0Ed187780033E8"
+         //"0xDd934c307677ee1B04DaD2477d0Ed187780033E8"
+         //this.contractAddress = localStorage.getItem('smartContract')
+         this.contractAddress = '0xa47C4eC02729e6495DA04F4FeAB6d1e7D2CaBd05'
          this.sender = sender
          this.web3 = new Web3(window.ethereum)
          this.contract = new this.web3.eth.Contract(myContract.abi,this.contractAddress,{from :sender})

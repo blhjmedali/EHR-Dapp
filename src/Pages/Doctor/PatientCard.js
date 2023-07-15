@@ -2,10 +2,10 @@ import React from "react";
 import {Card, Image} from "react-bootstrap";
 import img2 from "../../images/background/vecteezy_3d-render-hand-carrying-heart_13091288_470.png";
 import DisplayRowKV from "../../Components/DisplayRowKV";
-import Button from "react-bootstrap/Button";
-import {TiChevronRight} from "react-icons/ti";
 import ViewPatientPopup from "./ViewPatientPopup";
 
+// this component is responsible of displaying a single card of user
+// it'll be user in <Doctor/> => <MyPatients/>
 function PatientCard(prop) {
     return(
         <Card className='m-3 shadow-sm border-0'>

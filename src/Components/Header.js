@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { FaUserMd } from "react-icons/fa";
 import { FaUserInjured ,FaUser} from "react-icons/fa";
 import { MdPersonalInjury } from "react-icons/md";
+import {Nav, Navbar} from "react-bootstrap";
 
 
 
@@ -82,29 +83,26 @@ const Header = () =>{
     }
 
     return(
-        <nav className='navbar navbar-expand-md sticky-top  navbar-dark bg-dark navbar-fixed'>
-            <div className="m-2">
-                <Link to='/' className="navbar-brand p-3" >DossierMedical</Link>
-            </div>
+        <>
+            <Navbar  expand="lg" bg="dark" data-bs-theme="dark" >
+                <Navbar.Brand >
+                    <Link to='/' className="navbar-brand p-3 text-muted" >DossierMedical</Link>
+                </Navbar.Brand>
 
-            <div className=" navbar-collapse justify-content-between ">
-                <div className='navbar-nav  '>
-                    <a onClick= {CompanyHandler} href='#' className='nav-link '>Company  </a>
-                    <a onClick= {doctorHandler}  href='#' className='nav-link '>Doctor</a>
-                    <a onClick= {patientHandler} href='#' className='nav-link' >Patient</a>
-                </div>
-                <span className='navbar-text text-muted '><small>{wallet_address}</small></span>
-                <div className='navbar-nav  me-4'>
-                    <Link onClick= {adminHandler}   to='#' className='nav-link ' > <FaUser/> Admin</Link>
-                </div>
-            </div>
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="me-auto " >
+                        <Link onClick= {CompanyHandler} to='#' className='nav-link nav-item px-2 text-muted '>Company  </Link>
+                        <Link onClick= {doctorHandler}  to='#' className='nav-link nav-item px-2 text-muted'>Doctor</Link>
+                        <Link onClick= {patientHandler} to='#' className='nav-link nav-item px-2 text-muted' >Patient</Link>
+                        <Link onClick= {adminHandler}   to='#' className='nav-link nav-item px-2 text-muted' > {/*<FaUser/>*/} Admin</Link>
+                    </Nav>
+                </Navbar.Collapse>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
-
-
-
-
+            </Navbar>
             <ToastContainer theme="dark" position="top-right" />
-        </nav>
+
+        </>
     )
 }
 

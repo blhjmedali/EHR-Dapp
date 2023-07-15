@@ -9,11 +9,11 @@ contract  Contract {
         admin=msg.sender;
         isAdmin[admin]=true;
         ////////////////////////////////
-        createDoctor(0xff640B68F773729E8A352cCa92888dc3535dB90d,"Mahboubi","Houssem","Houssem@gmail.com","Generalist","USTO","Oran","02/05/2000","0788996655","Male","2023");
-        createDoctor(0x695553ff7eAAdb81BCeb8DEEE24118dC36c486AF,"Ferkach","Zaki","zaki@gmail.com","cardiologue","SBA","EL-BAYADH","12/12/2000","0788996655","Male","2022");
-
-        createPatient(0x9fE7AF5782D9bf27ECC304EE6ED34c0FF97b9eE0,"Belhadj","Mohamed Ali","blhj.medali@gmail.com"," El-Bayadh","25/10/2000","0788996655","male","2023")  ;
-        createPatient(0xb5b6d0E2C523ec14618D44F9AFB73195414F8786,"Aibout","Sidahmed","sidou23@hotmail.com"," Saida","10/11/2001","0788996655","male","2020")  ;
+//        createDoctor(0xff640B68F773729E8A352cCa92888dc3535dB90d,"Mahboubi","Houssem","Houssem@gmail.com","Generalist","USTO","Oran","02/05/2000","0788996655","Male","2023");
+//        createDoctor(0x695553ff7eAAdb81BCeb8DEEE24118dC36c486AF,"Ferkach","Zaki","zaki@gmail.com","cardiologue","SBA","EL-BAYADH","12/12/2000","0788996655","Male","2022");
+//
+//        createPatient(0x9fE7AF5782D9bf27ECC304EE6ED34c0FF97b9eE0,"Belhadj","Mohamed Ali","blhj.medali@gmail.com"," El-Bayadh","25/10/2000","0788996655","male","2023")  ;
+//        createPatient(0xb5b6d0E2C523ec14618D44F9AFB73195414F8786,"Aibout","Sidahmed","sidou23@hotmail.com"," Saida","10/11/2001","0788996655","male","2020")  ;
 
         CreateCompany(0x7cC31808e194EBb20429DF1FCC8056aa18062835, "CNAS","EL-BAYADH","0491234","cnas@mail.com","www.cnas.com","assurance company 1" )  ;
         CreateCompany(0xA3bd68241A59379646109a7b399450d3E8dA1FD8, "CASNOS","SAIDA","0491234","casnos@mail.com","www.casnos.com","assurance company 2" )  ;
@@ -167,16 +167,16 @@ contract  Contract {
     //// get info
     function getDoctorinfo(address _adr) public view returns (Doctor memory) {
         return doctors[_adr];
-    }                                                                                                   //        /\       //
-    function getPatieninfo(address _adr) public view returns (Patient memory) {                         //       //\\      //
-        return patients[_adr];                                                                          //      ///\\\     //
-    }                                                                                                   //     ////\\\\    //
-                                                                                                        //    /////\\\\\   //
-    function getMedicalRecordinfo(address _adr) public view returns (MedicalRecord memory) {            //   /////()\\\\\  //
-        require(!appreovedDoctors[msg.sender][_adr] , "This not your patient !"); //   \\\\|()|////  //
-        return medicalRecords[_adr];                                                                    //   ////    \\\\  //
-    }                                                                                                   //  ////||||||\\\\ //
-
+    }                                                                                                   //        /\        //
+    function getPatieninfo(address _adr) public view returns (Patient memory) {                         //       //\\       //
+        return patients[_adr];                                                                          //      ///\\\      //
+    }                                                                                                   //     ////\\\\     //
+                                                                                                        //    /////\\\\\    //
+    function getMedicalRecordinfo(address _adr) public view returns (MedicalRecord memory) {            //   /////()\\\\\   //
+        require(!appreovedDoctors[msg.sender][_adr] , "This not your patient !");                       //   \\\\|()|////   //
+        return medicalRecords[_adr];                                                                    //   ////    \\\\   //
+    }                                                                                                   //  ////||||||\\\\  //
+                                                                                                        // ////        \\\\ //
 
     //// get count
     function getDoctorsCount() public view returns (uint) {

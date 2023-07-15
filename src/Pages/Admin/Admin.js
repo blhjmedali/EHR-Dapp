@@ -29,7 +29,7 @@ const Admin=()=>{
     }
 
 
-    /////////////////////////////////////////////////// change Profile
+    // Change Profile if user change metamask account //
     const navigate = useNavigate()
     const getUserType = async () =>{
         const user_type =  await a.getUserType(window.ethereum.selectedAddress)
@@ -57,11 +57,8 @@ const Admin=()=>{
         <Body>
             <SideBar title='Admin' aray={admin_nav_items} pic={levi}onClickInItem={getSelectedItem}/>
             <ContentContainer type = 'admin'>
-
                 {selected_nav_item=='1' && <PatientsAdm/> }
                 {selected_nav_item=='2' && <DoctorsAdm /> }
-
-
 
             </ContentContainer>
         </Body>
